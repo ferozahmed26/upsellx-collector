@@ -49,6 +49,9 @@ export class AppComponent implements OnInit {
 
   submit() {
     console.log(this.client.value);
+    this.data.addClient(this.client.value).pipe(take(1)).subscribe(response => {
+      console.log(response);
+    }, error => console.log(error));
     return;
   }
 
