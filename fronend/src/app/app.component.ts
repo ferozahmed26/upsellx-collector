@@ -57,7 +57,7 @@ export class AppComponent implements OnInit {
     screenName: '',
     postCount: 0
   };
-  selectedClient = {};
+  selectedClient: any;
 
   constructor(private data: DataService, private modalService: BsModalService) { }
 
