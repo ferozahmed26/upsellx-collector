@@ -33,15 +33,15 @@ const twitterSpider = {
                     'x-guest-token': this.guest_token,
                 }
             }).then(response => {
-                this.clientJson = response.body;
-                resolve('done');
+                const clientJson = response.body;
+                resolve(clientJson);
             }).catch(e => reject(e));
         });
     },
     scrapData: async function (page) {
         try {
             this.guest_token = await this.getGuestTokenAsync();
-            await this.getProfileDataAsync(page);
+            return await this.getProfileDataAsync(page);
         } catch (e) {
             throw e;
         }

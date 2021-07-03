@@ -23,15 +23,17 @@ const webSpider = {
             if (site) {
                 throw new Error('Site already exist.');
             }
-            await this.getPageAsync(data.site);
-            const links = await this.getSocialLinks();
+            const pageHtml = await this.getPageAsync(data.site);
+            const links = await this.getSocialLinks(pageHtml);
+            let facebookPageHtml = '';
             if (links['facebook']) {
-                await facebookSpider.getPageAsync(links['facebook']);
+                facebookPageHtml = await facebookSpider.getPageAsync(links['facebook']);
             }
+            let clientJson = null;
             if (links['twitter']) {
-                await twitterSpider.scrapData(links['twitter']);
+                clientJson = await twitterSpider.scrapData(links['twitter']);
             }
-            site = await mongoService.saveClient(hostName, this.pageHtml, facebookSpider.pageHtml, twitterSpider.clientJson);
+            site = await mongoService.saveClient(hostName, pageHtml, facebookPageHtml, clientJson);
             console.log(site._id);
             await senderRMQ.connect(config.rabbit.host, config.rabbit.port)
             senderRMQ.send(site['_id'].toString());
@@ -50,15 +52,15 @@ const webSpider = {
         return new Promise((resolve, reject) => {
             got(`${page}`)
                 .then(response => {
-                    this.pageHtml = response.body;
-                    resolve('result')
+                    const pageHtml = response.body;
+                    resolve(pageHtml)
                 })
                 .catch(error => reject(error));
         })
     },
-    getSocialLinks: function () {
+    getSocialLinks: function (pageHtml) {
         return new Promise((resolve, reject) => {
-            const $ = cheerio.load(this.pageHtml);
+            const $ = cheerio.load(pageHtml);
             const result = {facebook: '', twitter: ''};
             const fb = $("a[href*='facebook.com']");
             const twt = $("a[href*='twitter.com']");

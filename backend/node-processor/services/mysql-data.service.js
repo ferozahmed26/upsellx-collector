@@ -80,22 +80,29 @@ mysqlDataService = {
             website: ''
         };
         return new Promise((resolve, reject) => {
-            const $ = cheerio.load(page);
-            const childrenNodes = $('#PagesProfileHomeSecondaryColumnPagelet').find('._1xnd').children();
-            result['title'] = $("meta[property='og:title']").attr('content');
-            result['subTitle'] = $('#seo_h1_tag div').text();
-            result['starCount'] = $('.uiStars').prev().text();
-            const communityNodes = $(childrenNodes[0]).find('._4bl9');
-            const aboutNodes = $(childrenNodes[1]);
-            const pageTransparency = $(childrenNodes[2]);
-            result['likeCount'] = communityNodes.find('div:contains("like")').text().replace(/\D/g, '');
-            result['followersCount'] = communityNodes.find('div:contains("follow")').text().replace(/\D/g, '');
-            result['checkInCount'] = communityNodes.find('div:contains("check-in")').text().replace(/\D/g, '');
-            result['location'] = $(aboutNodes.find('div._4bl9:contains("Direction")').children()[0]).text();
-            const phoneNode = aboutNodes.find('._4bl9').toArray().map(m => $(m)).filter(m => m.children().length === 1).filter(l => l.children().children().length === 0)
-            result['phone'] = phoneNode.length ? phoneNode[0].text() : '';
-            result['website'] = aboutNodes.find('div._v0m').text();
-            resolve(result);
+            if (!page) {
+                resolve(result);
+            }
+            try {
+                const $ = cheerio.load(page);
+                const childrenNodes = $('#PagesProfileHomeSecondaryColumnPagelet').find('._1xnd').children();
+                result['title'] = $("meta[property='og:title']").attr('content');
+                result['subTitle'] = $('#seo_h1_tag div').text();
+                result['starCount'] = $('.uiStars').prev().text();
+                const communityNodes = $(childrenNodes[0]).find('._4bl9');
+                const aboutNodes = $(childrenNodes[1]);
+                const pageTransparency = $(childrenNodes[2]);
+                result['likeCount'] = communityNodes.find('div:contains("like")').text().replace(/\D/g, '');
+                result['followersCount'] = communityNodes.find('div:contains("follow")').text().replace(/\D/g, '');
+                result['checkInCount'] = communityNodes.find('div:contains("check-in")').text().replace(/\D/g, '');
+                result['location'] = $(aboutNodes.find('div._4bl9:contains("Direction")').children()[0]).text();
+                const phoneNode = aboutNodes.find('._4bl9').toArray().map(m => $(m)).filter(m => m.children().length === 1).filter(l => l.children().children().length === 0)
+                result['phone'] = phoneNode.length ? phoneNode[0].text() : '';
+                result['website'] = aboutNodes.find('div._v0m').text();
+                resolve(result);
+            } catch (e) {
+                resolve(result);
+            }
         })
     },
     processTwitterObjectData: function (dataObject) {
@@ -112,12 +119,17 @@ mysqlDataService = {
             'screenName': '',
             'postCount': 0
         };
-        const keyMaps = ['created_at', 'description', 'followers_count', 'friends_count', 'location', 'name', 'normal_followers_count', 'profile_banner_url', 'profile_image_url_https', 'screen_name', 'statuses_count'];
-        Object.keys(result).forEach((key, index) => {
-            try {
-                result[key] = dataObject.data.user['legacy'][keyMaps[index]];
-            } catch (e) {}
-        });
+        if (!dataObject) {
+            return result;
+        }
+        try {
+            const keyMaps = ['created_at', 'description', 'followers_count', 'friends_count', 'location', 'name', 'normal_followers_count', 'profile_banner_url', 'profile_image_url_https', 'screen_name', 'statuses_count'];
+            Object.keys(result).forEach((key, index) => {
+                try {
+                    result[key] = dataObject.data.user['legacy'][keyMaps[index]];
+                } catch (e) {}
+            });
+        } catch (e) {}
         return result;
     },
 };

@@ -7,8 +7,8 @@ const facebookSpider = {
         return new Promise((resolve, reject) => {
             got(`https://facebook.com/${profile}`)
                 .then(response => {
-                    this.pageHtml = response.body;
-                    resolve('done')
+                    const pageHtml = response.body;
+                    resolve(pageHtml)
                 })
                 .catch(error => reject(error));
         })
