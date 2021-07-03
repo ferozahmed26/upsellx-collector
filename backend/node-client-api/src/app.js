@@ -1,13 +1,15 @@
 require('./globals/utility.global');
 const http = require('http'),
     express = require('express'),
+    cors = require('cors'),
     mysqlDataService = require('./services/mysql-data.service'),
     collector = require('./controllers/collector.controller'),
     config = require('./config/app.config')(),
     app = express(),
     server = http.createServer(app);
 
-    mysqlDataService.connect(config.mysql.host, config.mysql.port, config.mysql.user, config.mysql.password, config.mysql.db)
+app.use(cors());
+mysqlDataService.connect(config.mysql.host, config.mysql.port, config.mysql.user, config.mysql.password, config.mysql.db)
     .then(() => {
         app.get('/', (req, res) => {
             res.send('Welcome to client api!');

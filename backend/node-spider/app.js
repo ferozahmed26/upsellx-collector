@@ -1,6 +1,7 @@
 require('./globals/utility.global');
 const http = require('http'),
     express = require('express'),
+    cors = require('cors'),
     bodyParser = require('body-parser'),
     mongoService = require('./services/mongo.service'),
     webSpider = require('./controllers/web-spider.controller'),
@@ -9,6 +10,7 @@ const http = require('http'),
     app = express(),
     server = http.createServer(app);
 
+app.use(cors());
 app.use(bodyParser.json());
 
 mongoService.db.connect(
