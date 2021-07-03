@@ -1,7 +1,6 @@
 const got = require('got');
 
 const facebookSpider = {
-    pageHtml: '',
     getPageAsync: function (page) {
         const profile = page.split('facebook.com/')[1].trim().replace('/', '');
         return new Promise((resolve, reject) => {
@@ -12,9 +11,6 @@ const facebookSpider = {
                 })
                 .catch(error => reject(error));
         })
-    },
-    savePage: function () {
-        return new Promise((resolve, reject) => resolve(this.pageHtml));
     }
 };
 

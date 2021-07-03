@@ -72,9 +72,6 @@ const webSpider = {
             }
             resolve(result)
         });
-    },
-    savePageAsync: function () {
-        return new Promise((resolve, reject) => resolve(this.pageHtml));
     }
 };
 

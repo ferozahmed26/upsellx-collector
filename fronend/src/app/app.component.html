@@ -33,14 +33,12 @@
     <div class="col-md-10 offset-md-1 mt-3">
       <div class="website-list text-center">
         <div (click)="openClientModal(client, template)" *ngFor="let client of clientList; trackBy:trackByFn" class="btn btn-outline-secondary">
-<!--          <span class="badge badge-pill {{client.badge}}">{{client.status}}</span>-->
+          <span class="badge badge-pill {{client.badge}}">{{client.status}}</span>
           <h3>{{client.website}}</h3>
         </div>
       </div>
     </div>
-
   </div>
-
 </div>
 <ng-template #template>
   <div class="modal-header">
