@@ -16,14 +16,14 @@
   <div class="row">
     <div class="col-md-6 offset-md-3 text-center">
 
-      <Form>
+      <form (submit)="onFormSubmit()">
         <div class="input-group mb-1 mt-3 p-3 bg-info input-group-border-radius">
-          <input type="text" name="url" class="form-control form-control-lg" placeholder="https://example.com/" />
+          <input [formControl]="client" type="text" name="url" class="form-control form-control-lg" placeholder="https://example.com/" />
           <div class="input-group-append">
-            <button class="btn btn-warning btn-lg" type="submit">Send</button>
+            <button [disabled]="client.invalid" (click)="submit()" class="btn btn-warning btn-lg" type="button">Send</button>
           </div>
         </div>
-      </Form>
+      </form>
 
 
     </div>
@@ -33,19 +33,22 @@
 
     <div class="col-md-10 offset-md-1 mt-3">
       <div class="website-list text-center">
-        <a href="" class="btn btn-outline-secondary">SELISE</a>
-        <a href="" class="btn btn-outline-secondary">Pridesys</a>
-        <a href="" class="btn btn-outline-secondary">Cefalo</a>
-        <a href="" class="btn btn-outline-secondary">NewsCred</a>
-        <a href="" class="btn btn-outline-secondary">Pridesys</a>
-        <a href="" class="btn btn-outline-secondary">Cefalo</a>
-        <a href="" class="btn btn-outline-secondary">NewsCred</a>
-        <a href="" class="btn btn-outline-secondary">Cefalo</a>
-        <a href="" class="btn btn-outline-secondary">NewsCred</a>
-        <a href="" class="btn btn-outline-secondary">Pridesys</a>
-        <a href="" class="btn btn-outline-secondary">Cefalo</a>
-        <a href="" class="btn btn-outline-secondary">NewsCred</a>
-        <a href="" class="btn btn-outline-secondary">SELISE</a>
+        <div *ngFor="let client of clientList" class="btn btn-outline-secondary">
+          <span class="badge badge-pill {{client.badge}}">{{client.status}}</span>
+          <h3>{{client.website}}</h3>
+        </div>
+        <div class="btn btn-outline-secondary">Pridesys</div>
+        <div class="btn btn-outline-secondary">Cefalo</div>
+        <div class="btn btn-outline-secondary">NewsCred</div>
+        <div class="btn btn-outline-secondary">Pridesys</div>
+        <div class="btn btn-outline-secondary">Cefalo</div>
+        <div class="btn btn-outline-secondary">NewsCred</div>
+        <div class="btn btn-outline-secondary">Cefalo</div>
+        <div class="btn btn-outline-secondary">NewsCred</div>
+        <div class="btn btn-outline-secondary">Pridesys</div>
+        <div class="btn btn-outline-secondary">Cefalo</div>
+        <div class="btn btn-outline-secondary">NewsCred</div>
+        <div class="btn btn-outline-secondary">SELISE</div>
       </div>
 
 

@@ -8,16 +8,21 @@
 .input-group-border-radius {
   border-radius: 10px;
 }
-
+.website-list {
+  display: block;
+  position: relative;
+}
+.website-list .badge {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 2px;
+}
 .website-list .btn {
-  /* min-width: 100px;
-  margin: 4px 2px;
-  background: #f1f1f1;
-  transition: .3s; */
+  position: relative;
   border-radius: 4px;
   border: 1px solid #eee;
   background-color: #fafafa;
-  height: 40px;
   min-width: 200px;
   margin: 6px 3px;
   /* padding: 16px; */
