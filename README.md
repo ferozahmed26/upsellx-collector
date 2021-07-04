@@ -42,7 +42,7 @@ UpsellX Collector
   - JavaScript
   - Angular
   
-## Docker - run!
+## Docker Installation
 * Cloning the repo
 
 ```bash
@@ -65,4 +65,5 @@ $ docker-compose up
 ```bash
 $ docker-compose down
 ```
-
+## Application
+### [http://localhost:3000/](http://localhost:3000/)
