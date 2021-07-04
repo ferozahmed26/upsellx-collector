@@ -29,7 +29,20 @@ UpsellX Collector
 ## System Diagram:
 ![UpsellX](system_diagram.jpg "UpsellX")
 
-## Docker
+## Technology
+- ### Server/Backend
+  - JavaScript
+  - Expressjs
+  - Node.js
+  - MongoDB
+  - MariaDB
+  - RabbitMQ
+
+- ### Web/Frontend
+  - JavaScript
+  - Angular
+  
+## Docker - run!
 * Cloning the repo
 
 ```bash
@@ -53,14 +66,3 @@ $ docker-compose up
 $ docker-compose down
 ```
 
-## Server/Backend
-- JavaScript
-- Expressjs
-- Node.js
-- MongoDB
-- MariaDB
-- RabbitMQ
-
-## Web/Frontend
-- JavaScript
-- Angular
