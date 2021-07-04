@@ -11,17 +11,20 @@ UpsellX Collector
 - End use will submit a website link which contain other social & public links associated with this site.
 - Service collector receive the link and parse public & social links and information from this link. It will start some own crawler service and save into data repository of unstructured, semi-structured and structured data.
 - Then publish an event to ETL system through RabbitMQ.
-- ETL service consume it & process data by querying, manipulating, cleaning, enriching, standardizing, and validating data. Load data to the Enterprise Data Environment, in which raw data is staged and so it can be organized, cleaned, and optimized for use by end-users.
+- ETL service consume it & process data by querying, manipulating, cleaning, enriching, standardizing, and validating data.
+  
+    - Load data to the Enterprise Data Environment, in which raw data is staged and so it can be organized, cleaned, and optimized for use by end-users.
 - End-users, such as business stakeholders, analysts, and programmers who consume data for various purposes.
 ## Considerations
 - Cloud Outage
+
+    - Didn't have any personal cloud account.
 - Short Time
 
     - extracting only Facebook & Twitter data due to prototype purpose.
-- Backup Policy
 - Blocking of IP
 
-    - IP will be banned for public data for Continuous data crawling
+    - IP will be banned for public data for Continuous data crawling.
 
 
 
