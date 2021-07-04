@@ -1,58 +1,58 @@
 const config = {
     local: {
         mode: 'local',
-        port: 4000,
+        port: 5000,
         mongo: {
-            host: '127.0.0.1',
+            host: 'mongo-db',
             port: 27017
         },
         rabbit: {
-            host: '127.0.0.1',
+            host: 'rabbitmq',
             port: 15672
         },
         mysql: {
-            host: '127.0.0.1',
+            host: 'mariadb',
             port: 3306,
-            user: 'monty',
-            password: 'some_pass',
+            user: 'root',
+            password: 'passpass',
             db: 'upsellx'
         }
     },
     staging: {
-        mode: 'staging',
-        port: 6000,
+        mode: 'local',
+        port: 5000,
         mongo: {
-            host: '127.0.0.1',
+            host: 'mongo-db',
             port: 27017
         },
         rabbit: {
-            host: '127.0.0.1',
+            host: 'rabbitmq',
             port: 15672
         },
         mysql: {
-            host: '127.0.0.1',
+            host: 'mariadb',
             port: 3306,
-            user: 'monty',
-            password: 'some_pass',
+            user: 'root',
+            password: 'passpass',
             db: 'upsellx'
         }
     },
     production: {
-        mode: 'production',
-        port: 4000,
+        mode: 'local',
+        port: 5000,
         mongo: {
-            host: '127.0.0.1',
+            host: 'mongo-db',
             port: 27017
         },
         rabbit: {
-            host: '127.0.0.1',
+            host: 'rabbitmq',
             port: 15672
         },
         mysql: {
-            host: '127.0.0.1',
+            host: 'mariadb',
             port: 3306,
-            user: 'monty',
-            password: 'some_pass',
+            user: 'root',
+            password: 'passpass',
             db: 'upsellx'
         }
     }
