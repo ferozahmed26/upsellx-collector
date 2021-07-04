@@ -32,7 +32,7 @@ function siteValidator(): ValidatorFn {
 export class AppComponent implements OnInit {
   modalRef: BsModalRef | null;
   client: FormControl;
-  clientList: Client[] = [];
+  clientList: any[] = [];
   facebookDataJson = {
     title: '',
     subTitle: '',

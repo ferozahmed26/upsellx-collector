@@ -24,17 +24,26 @@
           </div>
         </div>
       </form>
-
-
     </div>
-
   </div>
   <div class="row">
     <div class="col-md-10 offset-md-1 mt-3">
       <div class="website-list text-center">
-        <div (click)="openClientModal(client, template)" *ngFor="let client of clientList; trackBy:trackByFn" class="btn btn-outline-secondary">
+        <div (click)="openClientModal(client, template)" *ngFor="let client of clientList; trackBy:trackByFn" class="btn btn-outline-primary">
           <span class="badge badge-pill {{client.badge}}">{{client.status}}</span>
-          <h3>{{client.website}}</h3>
+          <h3 class="w-100">{{client.website}}</h3>
+          <div class="social-div w-100">
+            <img *ngIf="(client.fbError=='0' && client.title); else fbError" src="assets/image/facebook-done.svg" alt="">
+            <ng-template #fbError>
+              <img src="assets/image/facebook-error.svg" alt="">
+            </ng-template>
+            <img *ngIf="(client.twtError=='0' && client.screenName); else twtError;" src="assets/image/twitter-done.svg" alt="">
+            <ng-template #twtError>
+              <img  src="assets/image/twitter-error.svg" alt="">
+            </ng-template>
+            <img src="assets/image/linkedin.svg" alt="">
+            <img src="assets/image/instagram.svg" alt="">
+          </div>
         </div>
       </div>
     </div>

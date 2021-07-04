@@ -15,10 +15,12 @@ mysqlDataService = {
             resolve();
         });
     },
-    insertCollectionAsync: function (refId, website) {
+    insertCollectionAsync: function (refId, website, fbError, twtError) {
         return new Promise((resolve, reject) => {
-            const queryString = `INSERT INTO collections SET ref_id = ?, website = ?, status = ?`;
-            const values = [refId, website, 'processing'];
+            fbError = fbError ? '1' : '0';
+            twtError = twtError ? '1' : '0';
+            const queryString = `INSERT INTO collections SET ref_id = ?, website = ?, status = ?, fbError = ?, twtError = ?`;
+            const values = [refId, website, 'processing', fbError, twtError];
             this.pool.query(queryString, values, (error, results, fields) => {
                 if (error) {
                     reject(error);
@@ -67,7 +69,7 @@ mysqlDataService = {
             });
         });
     },
-    processFacebookHtmlDataAsync: function (page) {
+    processFacebookHtmlDataAsync: function (page, hasError) {
         const result = {
             title: '',
             subTitle: '',
@@ -80,7 +82,7 @@ mysqlDataService = {
             website: ''
         };
         return new Promise((resolve, reject) => {
-            if (!page) {
+            if (!page || hasError) {
                 resolve(result);
             }
             try {
@@ -105,7 +107,7 @@ mysqlDataService = {
             }
         })
     },
-    processTwitterObjectData: function (dataObject) {
+    processTwitterObjectData: function (dataObject, hasError) {
         const result = {
             'pageCreated': '',
             'description': '',
@@ -119,7 +121,7 @@ mysqlDataService = {
             'screenName': '',
             'postCount': 0
         };
-        if (!dataObject) {
+        if (!dataObject || hasError) {
             return result;
         }
         try {
@@ -129,7 +131,9 @@ mysqlDataService = {
                     result[key] = dataObject.data.user['legacy'][keyMaps[index]];
                 } catch (e) {}
             });
-        } catch (e) {}
+        } catch (e) {
+            return result;
+        }
         return result;
     },
 };

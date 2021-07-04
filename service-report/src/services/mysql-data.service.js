@@ -21,6 +21,8 @@ mysqlDataService = {
                                     c.ref_id,
                                     c.website,
                                     c.status,
+                                    c.fbError,
+                                    c.twtError,
                                     c.createdAt,
                                     c.updatedAt,
                                     fc.title fb_title,

@@ -26,14 +26,24 @@ const webSpider = {
             const pageHtml = await this.getPageAsync(data.site);
             const links = await this.getSocialLinks(pageHtml);
             let facebookPageHtml = '';
+            let fbError = false;
             if (links['facebook']) {
-                facebookPageHtml = await facebookSpider.getPageAsync(links['facebook']);
+                try {
+                    facebookPageHtml = await facebookSpider.getPageAsync(links['facebook']);
+                } catch (e) {
+                    fbError = true;
+                }
             }
             let clientJson = null;
+            let twtError = false;
             if (links['twitter']) {
-                clientJson = await twitterSpider.scrapData(links['twitter']);
+                try {
+                    clientJson = await twitterSpider.scrapData(links['twitter']);
+                } catch (e) {
+                    twtError = true;
+                }
             }
-            site = await mongoService.saveClient(hostName, pageHtml, facebookPageHtml, clientJson);
+            site = await mongoService.saveClient(hostName, pageHtml, facebookPageHtml, clientJson, fbError, twtError);
             console.log(site._id);
             await senderRMQ.connect(config.rabbit.host, config.rabbit.port)
             senderRMQ.send(site['_id'].toString());

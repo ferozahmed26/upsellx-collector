@@ -6,6 +6,8 @@ ClientEntity = new Schema ({
         websiteText: String,
         facebookText: String,
         twitterJson: Object,
+        fbError: Boolean,
+        twtError: Boolean
     },
     { timestamps: true }
 );
