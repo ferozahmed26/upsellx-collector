@@ -1,5 +1,12 @@
 version: '2'
 services:
+    rabbitmq:
+        image: rabbitmq:3.7.4
+        ports:
+            - 5672:5672
+            - 15672:15672
+        networks:
+            - collector-network
     mariadb:
         image: mariadb
         ports:
@@ -13,7 +20,7 @@ services:
             MARIADB_DATABASE: upsellx
         networks:
             - collector-network
-    mongo:
+    mongo_db:
         image: mongo
         ports:
             - 27017:27017
@@ -22,16 +29,6 @@ services:
             - "./data/mongo-data:/data/db"
         environment:
             MONGO_INITDB_DATABASE: upsellx
-        networks:
-            - collector-network
-    rabbitmq:
-        image: rabbitmq
-        ports:
-            - 5672:5672
-            - 15672:15672
-        environment:
-            RABBITMQ_DEFAULT_USER: user1
-            RABBITMQ_DEFAULT_PASS: 12345
         networks:
             - collector-network
     service-report:
@@ -46,18 +43,6 @@ services:
             - "mariadb"
         networks:
             - collector-network
-    service-etl:
-        build: ./service-etl
-        image: service-etl-image
-        environment:
-            APP_NAME: etl
-        tty: true
-        ports:
-            - '3002:3000'
-        depends_on:
-            - "mariadb"
-            - "mongo"
-            - "rabbitmq"
     service-collector:
         build: ./service-collector
         image: service-collector-image
@@ -68,7 +53,7 @@ services:
             - '3003:3000'
         depends_on:
             - "mariadb"
-            - "mongo"
+            - "mongo_db"
             - "rabbitmq"
         networks:
             - collector-network
@@ -81,5 +66,19 @@ services:
             APP_NAME: client-app
         networks:
             - collector-network
+    service-etl:
+        build: ./service-etl
+        image: service-etl-image
+        environment:
+            APP_NAME: etl
+        ports:
+            - '3002:3000'
+        depends_on:
+            - "mariadb"
+            - "mongo_db"
+            - "rabbitmq"
+        networks:
+            - collector-network
 networks:
     collector-network:
+        driver: bridge

@@ -33,11 +33,11 @@
           <span class="badge badge-pill {{client.badge}}">{{client.status}}</span>
           <h3 class="w-100">{{client.website}}</h3>
           <div class="social-div w-100">
-            <img *ngIf="(client.fbError=='0' && client.title); else fbError" src="assets/image/facebook-done.svg" alt="">
+            <img *ngIf="(client.fbError=='0' && client.fb_title); else fbError" src="assets/image/facebook-done.svg" alt="">
             <ng-template #fbError>
               <img src="assets/image/facebook-error.svg" alt="">
             </ng-template>
-            <img *ngIf="(client.twtError=='0' && client.screenName); else twtError;" src="assets/image/twitter-done.svg" alt="">
+            <img *ngIf="(client.twtError=='0' && client.twt_screenName); else twtError;" src="assets/image/twitter-done.svg" alt="">
             <ng-template #twtError>
               <img  src="assets/image/twitter-error.svg" alt="">
             </ng-template>

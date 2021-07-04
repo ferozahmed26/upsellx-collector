@@ -4,13 +4,20 @@ const dataCollector = require('./../controllers/collector.controller');
 receiverRMQ = {
     channel: null,
     connection: null,
+    createConnection: function (fn, host) {
+        const that = this;
+        amqp.connect(`amqp://${host}`, function(error0, connection) {
+            if (!connection) {
+                setTimeout(() => that.createConnection(fn, host), 1000);
+            } else {
+                fn(connection);
+            }
+        })
+    },
     connect: function(host, port) {
         const that = this;
         return new Promise((resolve, reject) => {
-            amqp.connect(`amqp://${host}`, function(error0, connection) {
-                if (error0) {
-                    reject(error0);
-                }
+            const callbackFn = function (connection) {
                 that.connection = connection;
                 connection.createChannel(function(error1, channel) {
                     if (error1) {
@@ -19,7 +26,8 @@ receiverRMQ = {
                     that.channel = channel;
                     resolve();
                 });
-            });
+            }
+            that.createConnection(callbackFn, host);
         });
     },
     receive: function () {

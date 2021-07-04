@@ -3,11 +3,11 @@ const config = {
         mode: 'local',
         port: 3000,
         mongo: {
-            host: 'mongo',
+            host: 'host.docker.internal',
             port: 27017
         },
         rabbit: {
-            host: 'rabbitmq',
+            host: 'host.docker.internal',
             port: 15672
         },
         mysql: {
@@ -21,5 +21,5 @@ const config = {
 }
 
 module.exports = function(mode) {
-    return config[mode || process.argv[2] || 'local'] || config.local;
+    return config.local;
 }

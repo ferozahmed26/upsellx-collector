@@ -24,10 +24,43 @@ UpsellX Collector
     - extracting only Facebook & Twitter data due to prototype purpose.
 - Blocking of IP
 
-    - IP will be banned for public data for Continuous data crawling.
-
-
-
-# System Diagram:
+    - IP can be banned for public data for Continuous data crawling.
+  
+## System Diagram:
 ![UpsellX](system_diagram.jpg "UpsellX")
 
+## Docker
+* Cloning the repo
+
+```bash
+$ git clone https://github.com/ferozahmed26/upsellx-collector
+```
+* Building an image
+
+```bash
+$ docker-compose build
+```
+
+* Running containers
+
+```bash
+$ docker-compose up
+```
+
+* Stopping containers
+
+```bash
+$ docker-compose down
+```
+
+## Server/Backend
+- JavaScript
+- Expressjs
+- Node.js
+- MongoDB
+- MariaDB
+- RabbitMQ
+
+## Web/Frontend
+- JavaScript
+- Angular
