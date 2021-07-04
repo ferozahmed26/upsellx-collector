@@ -13,10 +13,10 @@ services:
             MARIADB_DATABASE: upsellx
         networks:
             - collector-network
-    mongodb:
+    mongo:
         image: mongo
         ports:
-            - 27018:27017
+            - 27017:27017
         volumes:
             - ./script/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
             - "./data/mongo-data:/data/db"
@@ -24,62 +24,62 @@ services:
             MONGO_INITDB_DATABASE: upsellx
         networks:
             - collector-network
-#    rabbitmq:
-#        image: rabbitmq
-#        ports:
-#            - 5672:5672
-#            - 15672:15672
-#        environment:
-#            RABBITMQ_DEFAULT_USER: user1
-#            RABBITMQ_DEFAULT_PASS: 12345
-#        networks:
-#            - collector-network
-#    service-report:
-#        build: ./service-report
-#        image: service-report-image
-#        environment:
-#            APP_NAME: report
-#        tty: true
-#        ports:
-#            - '3001:3000'
-#        depends_on:
-#            - "mariadb"
-#        networks:
-#            - collector-network
-#    service-etl:
-#        build: ./service-etl
-#        image: service-etl-image
-#        environment:
-#            APP_NAME: etl
-#        tty: true
-#        ports:
-#            - '3002:3000'
-#        depends_on:
-#            - "mariadb"
-#            - "mongo-db"
-#            - "rabbitmq"
-#    service-collector:
-#        build: ./service-collector
-#        image: service-collector-image
-#        environment:
-#            APP_NAME: collector
-#        tty: true
-#        ports:
-#            - '3003:3000'
-#        depends_on:
-#            - "mariadb"
-#            - "mongo-db"
-#            - "rabbitmq"
-#        networks:
-#            - collector-network
-#    app:
-#        build: ./client-app
-#        image: client-app
-#        ports:
-#            - 3000:80
-#        environment:
-#            APP_NAME: client-app
-#        networks:
-#            - collector-network
+    rabbitmq:
+        image: rabbitmq
+        ports:
+            - 5672:5672
+            - 15672:15672
+        environment:
+            RABBITMQ_DEFAULT_USER: user1
+            RABBITMQ_DEFAULT_PASS: 12345
+        networks:
+            - collector-network
+    service-report:
+        build: ./service-report
+        image: service-report-image
+        environment:
+            APP_NAME: report
+        tty: true
+        ports:
+            - '3001:3000'
+        depends_on:
+            - "mariadb"
+        networks:
+            - collector-network
+    service-etl:
+        build: ./service-etl
+        image: service-etl-image
+        environment:
+            APP_NAME: etl
+        tty: true
+        ports:
+            - '3002:3000'
+        depends_on:
+            - "mariadb"
+            - "mongo"
+            - "rabbitmq"
+    service-collector:
+        build: ./service-collector
+        image: service-collector-image
+        environment:
+            APP_NAME: collector
+        tty: true
+        ports:
+            - '3003:3000'
+        depends_on:
+            - "mariadb"
+            - "mongo"
+            - "rabbitmq"
+        networks:
+            - collector-network
+    app:
+        build: ./client-app
+        image: client-app
+        ports:
+            - 3000:80
+        environment:
+            APP_NAME: client-app
+        networks:
+            - collector-network
 networks:
     collector-network:

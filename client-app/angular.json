@@ -1,9 +1,9 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1, 
+  "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "fronend": {
+    "client-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:class": {
@@ -38,7 +38,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/fronend",
+            "outputPath": "dist/client-app",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -87,18 +87,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "fronend:build"
+            "browserTarget": "client-app:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "fronend:build:production"
+              "browserTarget": "client-app:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "fronend:build"
+            "browserTarget": "client-app:build"
           }
         },
         "test": {
@@ -135,15 +135,15 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "fronend:serve"
+            "devServerTarget": "client-app:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "fronend:serve:production"
+              "devServerTarget": "client-app:serve:production"
             }
           }
         }
       }
     }},
-  "defaultProject": "fronend"
+  "defaultProject": "client-app"
 }
