@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {AbstractControl, FormControl, ValidatorFn, Validators} from '@angular/forms';
 import {take} from 'rxjs/operators';
 import {DataService} from './services/data.service';
@@ -30,9 +30,12 @@ function siteValidator(): ValidatorFn {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  @ViewChild('templateError', { read: TemplateRef }) templateError: TemplateRef<any>;
   modalRef: BsModalRef | null;
   client: FormControl;
+  submitting = false;
   clientList: any[] = [];
+  errorData = {};
   facebookDataJson = {
     title: '',
     subTitle: '',
@@ -83,9 +86,22 @@ export class AppComponent implements OnInit {
   }
 
   submit() {
-    this.data.addClient(this.client.value).pipe(take(1)).subscribe(response => {
+    const data = this.client.value;
+    this.client.setValue('');
+    this.submitting = true;
+    this.errorData = {};
+    this.data.addClient(data).pipe(take(1)).subscribe(response => {
+      this.submitting = false;
       setTimeout(() => this.getClientList(), 500);
-    }, error => console.log(error));
+    }, error => {
+      this.submitting = false;
+      if (error.hasOwnProperty('error')) {
+        this.errorData = error.error;
+      } else {
+        this.errorData = {message: error.message};
+      }
+      this.openErrorModal(this.templateError);
+    });
     return;
   }
 
@@ -96,6 +112,10 @@ export class AppComponent implements OnInit {
   openClientModal(client, template: TemplateRef<any>) {
     this.selectedClient = client;
     this.prepareData(client);
+    this.modalRef = this.modalService.show(template);
+  }
+
+  openErrorModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
 

@@ -18,9 +18,12 @@
 
       <form (submit)="onFormSubmit()">
         <div class="input-group mb-1 mt-3 p-3 bg-info input-group-border-radius">
-          <input [formControl]="client" type="text" name="url" class="form-control form-control-lg" placeholder="https://example.com/" />
+          <input [readOnly]="submitting" [formControl]="client" type="text" name="url" class="form-control form-control-lg" placeholder="https://example.com/" />
           <div class="input-group-append">
-            <button [disabled]="client.invalid" (click)="submit()" class="btn btn-warning btn-lg" type="button">Send</button>
+            <button *ngIf="!submitting" [disabled]="client.invalid" (click)="submit()" class="btn btn-warning btn-lg" type="button">Send</button>
+            <button *ngIf="submitting" class="btn btn-warning">
+              <span class="spinner-border spinner-border-sm"></span>
+            </button>
           </div>
         </div>
       </form>
@@ -49,6 +52,17 @@
     </div>
   </div>
 </div>
+<ng-template #templateError>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Error</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="closeFirstModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ngx-json-viewer [json]="errorData"></ngx-json-viewer>
+  </div>
+</ng-template>
 <ng-template #template>
   <div class="modal-header">
     <h4 class="modal-title pull-left">{{selectedClient?.website}}</h4>
