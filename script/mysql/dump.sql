@@ -1,3 +1,4 @@
+CREATE DATABASE IF NOT EXISTS `upsellx`;
 CREATE TABLE IF NOT EXISTS `upsellx`.`collections`(
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `ref_id` CHAR(36) NOT NULL,
