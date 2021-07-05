@@ -73,6 +73,7 @@ services:
             APP_NAME: etl
         ports:
             - '3002:3000'
+            - '8081:8081'
         depends_on:
             - "mariadb"
             - "mongo_db"

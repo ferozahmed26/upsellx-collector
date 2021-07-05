@@ -3,6 +3,7 @@ const http = require('http'),
     express = require('express'),
     mongoService = require('./services/mongo.service'),
     mysqlDataService = require('./services/mysql-data.service'),
+    webSocketService = require('./services/web-scoket.service'),
     receiverRMQ = require('./services/amqp.receiver'),
     config = require('./config/app.config')(),
     app = express(),
@@ -24,6 +25,7 @@ mongoService.db.connect(
     })
     .then(() => {
         receiverRMQ.receive();
+        webSocketService.createConnection();
         app.get('/', (req, res) => {
             res.send('Welcome to data collector!');
         });

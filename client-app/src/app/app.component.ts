@@ -1,9 +1,20 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild
+} from '@angular/core';
 import {AbstractControl, FormControl, ValidatorFn, Validators} from '@angular/forms';
 import {take} from 'rxjs/operators';
 import {DataService} from './services/data.service';
 import {Client} from './models/client';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import {WebSocketService} from "./services/web-socket.service";
+import {Subscription} from "rxjs";
+import {WebSocketSubject} from "rxjs/internal-compatibility";
 
 const isValidURL = (str) => {
   const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
@@ -29,7 +40,7 @@ function siteValidator(): ValidatorFn {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('templateError', { read: TemplateRef }) templateError: TemplateRef<any>;
   modalRef: BsModalRef | null;
   client: FormControl;
@@ -61,8 +72,8 @@ export class AppComponent implements OnInit {
     postCount: 0
   };
   selectedClient: any;
-
-  constructor(private data: DataService, private modalService: BsModalService) { }
+  private socket$: WebSocketSubject<any>;
+  constructor(private data: DataService, private webSocket: WebSocketService, private modalService: BsModalService) { }
 
   ngOnInit() {
     this.client = new FormControl('', Validators.compose([Validators.required, siteValidator()]));
@@ -92,7 +103,7 @@ export class AppComponent implements OnInit {
     this.errorData = {};
     this.data.addClient(data).pipe(take(1)).subscribe(response => {
       this.submitting = false;
-      setTimeout(() => this.getClientList(), 500);
+      setTimeout(() => this.getClientList(), 1000);
     }, error => {
       this.submitting = false;
       if (error.hasOwnProperty('error')) {
@@ -129,5 +140,23 @@ export class AppComponent implements OnInit {
 
   trackByFn(index, item) {
     return item.id;
+  }
+
+  ngAfterViewInit() {
+    // this.webSocket.connect({reconnect: true});
+    this.socket$ = new WebSocketSubject('ws://localhost:8081');
+    this.socket$.subscribe(
+      (data) => {
+        this.getClientList();
+      },
+      (err) => console.error(err),
+      () => console.warn('Completed!')
+    );
+  }
+
+  ngOnDestroy() {
+    if (this.socket$) {
+      this.socket$.complete();
+    }
   }
 }

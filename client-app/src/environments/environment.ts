@@ -5,7 +5,9 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:3001',
-  spiderUrl: 'http://localhost:3003'
+  spiderUrl: 'http://localhost:3003',
+  wsEndpoint: 'ws://localhost:8081',
+  reconnectInterval: 2000
 };
 
 /*
