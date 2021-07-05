@@ -103,7 +103,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.errorData = {};
     this.data.addClient(data).pipe(take(1)).subscribe(response => {
       this.submitting = false;
-      setTimeout(() => this.getClientList(), 1000);
+      setTimeout(() => this.getClientList(), 100);
     }, error => {
       this.submitting = false;
       if (error.hasOwnProperty('error')) {
